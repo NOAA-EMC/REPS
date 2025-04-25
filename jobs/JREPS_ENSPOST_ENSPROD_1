@@ -1,0 +1,140 @@
+#!/bin/bash
+
+#############################################################
+# REPS RUNALL 
+# 08/14/2023 Jun Du, lunch all enspost jobs
+# 04/08/2025 Jun Du, modified as reps for initial implementation
+#
+#############################################################
+
+########################################
+# Preliminary data setup step
+########################################
+
+set -xa
+export PS4='$SECONDS + ' 
+date
+
+unset MPICH_RANK_REORDER_DISPLAY
+
+###########################################################
+# obtain unique process id (pid) and make temp directories
+###########################################################
+export DATA=${DATA:-${DATAROOT:?}/${jobid:?}}
+mkdir -p $DATA
+rm -rf $DATA/*
+cd $DATA
+
+msg="JOB $job HAS BEGUN"
+postmsg "$msg"
+
+#
+# Run setpdy and initialize PDY variables
+#
+
+export cycle=${cycle:-t${cyc}z}
+
+setpdy.sh
+. ./PDY
+
+##################################################
+# SENDCOM  - Copy Files From TMPDIR to $COMOUT
+# SENDDBN  - Issue DBNet Client Calls
+##################################################
+export ndate=/apps/ops/prod/nco/core/prod_util.v2.0.8/exec/ndate
+
+export SENDCOM=${SENDCOM:-YES}
+export SENDECF=${SENDECF:-YES}
+export SENDDBN=${SENDDBN:-YES}
+export SENDDBN_NTC=${SENDDBN_NTC:-NO}
+
+export HOMEreps=${HOMEreps:-$PACKAGEROOT/reps.${reps_ver}} 
+export EXECreps=${EXECreps:-$HOMEreps/exec}
+export PARMreps=${PARMreps:-$HOMEreps/parm}
+export USHreps=${USHreps:-$HOMEreps/ush}
+export FIXreps=${FIXreps:-$HOMEreps/fix}
+export SCRIPTSreps=${SCRIPTSreps:-$HOMEreps/scripts}
+
+###################################
+# Specify NET and RUN Name and model
+####################################
+export NET=${NET:-reps}
+export RUN=${RUN:-sref}
+
+export IOBUF_PARAMS='*:size=8M:count=8'
+
+##############################################
+# Define running directory and COM directories
+##############################################
+
+## PDY not included here as pull data from PDYm1 as well
+
+export COMINreps=${COMINreps:-$(compath.py -o $NET/${reps_ver})/$RUN.${PDY}/$cyc/pgrb}
+export COMOUT=${COMOUT:-$(compath.py -o $NET/${reps_ver})/$RUN.${PDY}/$cyc}
+
+if [ ! -d $COMOUT/ensprod ] ; then 
+ mkdir -p $COMOUT/ensprod
+ mkdir -p $COMOUT/wmo
+fi
+
+export pgmout="OUTPUT.$$"
+
+#######################################################
+# Pass information which is needed to run the Script
+#######################################################
+
+# export VERBOSE=YES
+
+###################################################
+# Execute exgefs_ensprod_link.sh.ecf and exgefs_ensprod.sh.ecf
+
+rm -rf poe.*
+
+#hrlist="006 012 018 024 030 036 042 048 054 060 066 072 078 084 090 096 102 108 114 120 126 132 138 144 150 156 162 168 174 180 186 192 198 204 210 216 222 228 234 240 246 252 258 264 270 276 282 288 294 300 306 312 318 324 330 336 342 348 354 360 366 372 378 384"
+#hrlist="006 012 018 024 030 036 042 048 054 060 066 072 078 084 090 096 102 108 114 120 126 132 138 144 150 156 162 168 174 180 186 192 198 204 210 216"
+#hrlist="222 228 234 240 246 252 258 264 270 276 282 288 294 300 306 312 318 324 330 336 342 348 354 360 366 372 378 384"
+ hrlist="006 012 018 024 030 036 042 048 054 060 066 072 078 084 090"
+
+for hr in $hrlist
+do
+echo "$SCRIPTSreps/exreps_enspost_link.sh.ecf $hr" >> poe.link.all
+echo "$SCRIPTSreps/exreps_enspost.sh.ecf $hr" >> poe.ensprod.all
+done
+
+chmod 775 poe.link.all
+chmod 775 poe.ensprod.all
+
+echo running ensprod_link.all
+mpiexec -n $NTASK -ppn $PTILE --cpu-bind verbose,core cfp ./poe.link.all
+export err=$?; err_chk
+
+echo running ensprod.all
+mpiexec -n $NTASK -ppn $PTILE --cpu-bind verbose,core cfp ./poe.ensprod.all
+export err=$?; err_chk
+
+if [ $err -ne 0 ]
+ then
+  msg="FATAL ERROR: ensprod job failed"
+  err_exit $msg
+else
+ names="mean sprd prob pmax pmin pmod pp10 pp25 pp50 pp75 pp90"
+ for name in $names
+ do
+# hours="006 012 018 024 030 036 042 048 054 060 066 072 078 084 090 096 102 108 114 120 126 132 138 144 150 156 162 168 174 180 186 192 198 204 210 216 222 228 234 240 246 252 258 264 270 276 282 288 294 300 306 312 318 324 330 336 342 348 354 360 366 372 378 384"
+  hours="006 012 018 024 030 036 042 048 054 060 066 072 078 084 090"
+  for hr in $hours
+  do
+   cat $COMOUT/ensprod/$RUN.t${cyc}z.$NEST.$name.f$hr.grib2 >> $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb$NEST.grib2
+  done 
+  $WGRIB2 $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb$NEST.grib2  -s >  $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb$NEST.grib2.idx
+ done
+fi
+
+msg="JOB $job HAS COMPLETED NORMALLY."
+postmsg "$msg"
+date
+
+cd $DATAROOT
+if [ $KEEPDATA = NO ]; then rm -rf $DATA; fi
+
+date

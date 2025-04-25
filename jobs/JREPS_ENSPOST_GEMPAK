@@ -1,0 +1,221 @@
+#!/bin/bash
+
+set -xa
+# #### 08/25/1999 ###################
+# SET SHELL PROCESSING VARIABLES
+# ###################################
+export PS4='$SECONDS + ' 
+date
+
+unset MPICH_RANK_REORDER_DISPLAY
+
+###########################################################
+# obtain unique process id (pid) and make temp directories
+###########################################################
+export DATA=${DATA:-${DATAROOT}/${jobid}}
+mkdir $DATA
+cd $DATA 
+rm -r $DATA/*
+
+# Run setpdy and initialize PDY variables
+export cycle=${cycle:-t${cyc}z}
+setpdy.sh
+. ./PDY
+
+##################################################
+# SENDECF  - Flag Events on ecFLOW
+# SENDCOM  - Copy Files From TMPDIR to $COMOUT
+# SENDDBN  - Issue DBNet Client Calls
+##################################################
+export SENDCOM=${SENDCOM:-YES}
+export SENDECF=${SENDECF:-YES}
+export SENDDBN=${SENDDBN:-YES}
+
+export HOMEreps=${HOMEreps:-$PACKAGEROOT/reps.${reps_ver}}
+export GEMPAKreps=${GEMPAKreps:-$HOMEreps/gempak}
+
+# For rrfs
+#if [ $type = single ];then
+# export finc=1
+# export fend=60
+# export fstart=01
+#else
+# export finc=1
+# export fend=54
+# export fstart=01
+#fi
+ 
+# For GEFS2SREF (separate or combined in hours)
+ 
+ export convert=combined
+
+ if [ $convert = separate ];then
+  export finc=006
+# export fend=384
+  export fend=090
+  export fstart=006
+ else
+  export finc=006
+  export fend=006
+  export fstart=006
+ fi
+
+export DBN_ALERT_TYPE=${DBN_ALERT_TYPE:-REPS_GEMPAK}
+
+###############################
+# Specify NET and RUN name
+###############################
+export NET=${NET:-reps}
+export RUN=${RUN:-sref} 
+  
+#export COMOUT=${COMOUT:-$(compath.py -o $NET/${rrfs_ver})/${RUN}.${PDY}/$type/gempak}
+#export COMIN=${COMIN:-$(compath.py -o $NET/${rrfs_ver})/${RUN}.${PDY}/$type/ensprod}
+export COMOUT=${COMOUT:-$(compath.py -o $NET/${reps_ver})/${RUN}.${PDY}/$cyc/gempak}
+export COMIN=${COMIN:-$(compath.py -o $NET/${reps_ver})/${RUN}.${PDY}/$cyc}
+
+if [ ! -f $COMOUT ] ; then
+  mkdir -p -m 775 $COMOUT
+fi
+ 
+export pgmout="OUTPUT.$$"
+
+env
+
+#################################################################
+# Execute the script
+rm -f poescript
+
+if [ $product = ensemble ];then
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf mean > $DATA/${NEST}_mean.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf prob > $DATA/${NEST}_prob.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf sprd > $DATA/${NEST}_sprd.$$ " >>poescript
+#echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pmmn > $DATA/${NEST}_pmmn.$$ " >>poescript
+#echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf avrg > $DATA/${NEST}_avrg.$$ " >>poescript
+#echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf eas  > $DATA/${NEST}_eas.$$  " >>poescript
+#echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf lpmm  > $DATA/${NEST}_lpmm.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pmax  > $DATA/${NEST}_pmax.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pmin  > $DATA/${NEST}_pmin.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pmod  > $DATA/${NEST}_pmod.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pp10  > $DATA/${NEST}_pp10.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pp25  > $DATA/${NEST}_pp25.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pp50  > $DATA/${NEST}_pp50.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pp75  > $DATA/${NEST}_pp75.$$  " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf pp90  > $DATA/${NEST}_pp90.$$  " >>poescript
+fi
+if [ $product = individual ];then
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf c00 > $DATA/${NEST}_c00.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p01 > $DATA/${NEST}_p01.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p02 > $DATA/${NEST}_p02.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p03 > $DATA/${NEST}_p03.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p04 > $DATA/${NEST}_p04.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p05 > $DATA/${NEST}_p05.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p06 > $DATA/${NEST}_p06.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p07 > $DATA/${NEST}_p07.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p08 > $DATA/${NEST}_p08.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p09 > $DATA/${NEST}_p09.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p10 > $DATA/${NEST}_p10.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p11 > $DATA/${NEST}_p11.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p12 > $DATA/${NEST}_p12.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p13 > $DATA/${NEST}_p13.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p14 > $DATA/${NEST}_p14.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p15 > $DATA/${NEST}_p15.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p16 > $DATA/${NEST}_p16.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p17 > $DATA/${NEST}_p17.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p18 > $DATA/${NEST}_p18.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p19 > $DATA/${NEST}_p19.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p20 > $DATA/${NEST}_p20.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p21 > $DATA/${NEST}_p21.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p22 > $DATA/${NEST}_p22.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p23 > $DATA/${NEST}_p23.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p24 > $DATA/${NEST}_p24.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p25 > $DATA/${NEST}_p25.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p26 > $DATA/${NEST}_p26.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p27 > $DATA/${NEST}_p27.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p28 > $DATA/${NEST}_p28.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p29 > $DATA/${NEST}_p29.$$ " >>poescript
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf p30 > $DATA/${NEST}_p30.$$ " >>poescript
+fi
+
+# For fresh flood in rrfs (not used for gefs and sref)
+if [ ${NEST} =  'conus' ]
+then
+if [ $type = single ];then
+#export finc=3
+#export fend=60
+#export fstart=06
+export finc=1
+export fend=60
+export fstart=01
+else
+export finc=1
+export fend=54
+export fstart=01
+fi
+echo "$HOMEreps/scripts/exreps_enspost_gempak.sh.ecf ffri  > $DATA/${NEST}_ffri.$$  " >>poescript
+fi
+
+chmod 775 ./poescript
+
+mpiexec -n $NTASK -ppn $PTILE --cpu-bind verbose,core cfp ./poescript
+export err=$?; err_chk
+
+if [ $product = ensemble ];then
+cat $DATA/${NEST}_mean.$$
+cat $DATA/${NEST}_prob.$$
+cat $DATA/${NEST}_sprd.$$
+#cat $DATA/${NEST}_pmmn.$$
+#cat $DATA/${NEST}_avrg.$$
+#cat $DATA/${NEST}_eas.$$
+#cat $DATA/${NEST}_lpmm.$$
+cat $DATA/${NEST}_pmax.$$
+cat $DATA/${NEST}_pmin.$$
+cat $DATA/${NEST}_pmod.$$
+cat $DATA/${NEST}_pp10.$$
+cat $DATA/${NEST}_pp25.$$
+cat $DATA/${NEST}_pp50.$$
+cat $DATA/${NEST}_pp75.$$
+cat $DATA/${NEST}_pp90.$$
+if [ ${NEST} =  'conus' ]
+then
+cat $DATA/${NEST}_ffri.$$
+fi
+fi
+
+if [ $product = individual ];then
+cat $DATA/${NEST}_c00.$$
+cat $DATA/${NEST}_p01.$$
+cat $DATA/${NEST}_p02.$$
+cat $DATA/${NEST}_p03.$$
+cat $DATA/${NEST}_p04.$$
+cat $DATA/${NEST}_p05.$$
+cat $DATA/${NEST}_p06.$$
+cat $DATA/${NEST}_p07.$$
+cat $DATA/${NEST}_p08.$$
+cat $DATA/${NEST}_p09.$$
+cat $DATA/${NEST}_p10.$$
+cat $DATA/${NEST}_p11.$$
+cat $DATA/${NEST}_p12.$$
+cat $DATA/${NEST}_p13.$$
+cat $DATA/${NEST}_p14.$$
+cat $DATA/${NEST}_p15.$$
+cat $DATA/${NEST}_p16.$$
+cat $DATA/${NEST}_p17.$$
+cat $DATA/${NEST}_p18.$$
+cat $DATA/${NEST}_p19.$$
+cat $DATA/${NEST}_p20.$$
+cat $DATA/${NEST}_p21.$$
+cat $DATA/${NEST}_p22.$$
+cat $DATA/${NEST}_p23.$$
+cat $DATA/${NEST}_p24.$$
+cat $DATA/${NEST}_p25.$$
+cat $DATA/${NEST}_p26.$$
+cat $DATA/${NEST}_p27.$$
+cat $DATA/${NEST}_p28.$$
+cat $DATA/${NEST}_p29.$$
+cat $DATA/${NEST}_p30.$$
+fi
+#################################################################
+
+cd ${DATAROOT}
+#if [ $KEEPDATA = NO ]; then rm -rf $DATA; fi
+date
