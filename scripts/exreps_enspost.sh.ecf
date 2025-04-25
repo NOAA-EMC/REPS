@@ -1,0 +1,41 @@
+#!/bin/ksh
+##########################################################
+# This script produces ensemble products
+# Arguments: cycle
+#
+# 09/01/2023 - Jun Du, for gefs version 12 
+#         
+###########################################################
+set -x
+
+cd $DATA
+
+export fhr=$1
+
+echo "$0 STRDATE "`date`
+
+msg="$job HAS BEGUN"
+postmsg "$msg"
+
+location=`hostname`
+
+echo running on $location
+
+#
+# Prepare to run ensemble product generator
+#
+
+$USHreps/enspost_ensprod.sh $fhr ${NEST}
+
+#####################################################################
+# GOOD RUN
+set +x
+echo "**************$job COMPLETED NORMALLY on `date`"
+set -x
+#####################################################################
+
+msg="HAS COMPLETED NORMALLY!"
+echo $msg
+postmsg  "$msg"
+echo $msg
+############## END OF SCRIPT #######################
