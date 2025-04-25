@@ -1,0 +1,45 @@
+             ipdtmpl(1)=jpd1
+             ipdtmpl(2)=jpd2
+             ipdtmpl(3)=4
+             ipdtmpl(4)=0
+c            ipdtmpl(5)=132              !assigned 20161214
+             ipdtmpl(5)=134              !for rrfs - J. Du
+             ipdtmpl(6)=0
+             ipdtmpl(7)=0
+             ipdtmpl(8)=1
+             ipdtmpl(9)=ifhr             !fcst time    
+             ipdtmpl(10)=jpd10
+             ipdtmpl(11)=gfld%ipdtmpl(11)
+             !ipdtmpl(12)= see below 
+             ipdtmpl(13)=gfld%ipdtmpl(13)
+             ipdtmpl(14)=gfld%ipdtmpl(14)
+             ipdtmpl(15)=gfld%ipdtmpl(15)
+             ipdtmpl(16)=1               !weighted mean of all members
+             ipdtmpl(17)=iens            !number of members
+         
+             if (trim(Msignal(nv)).eq.'P') ipdtmpl(3)=193   !Prob-matched mean 
+             if (trim(Msignal(nv)).eq.'L') ipdtmpl(3)=200   !Loc PM mean 
+
+              !ihr_ifhr=ihr+ifhr
+              !call get_ymd(iyr,imon,idy,ihr_ifhr,kyr,kmon,kdy,khr)
+              !ipdtmpl(18)=kyr   !year
+              !ipdtmpl(19)=kmon  !mon
+              !ipdtmpl(20)=kdy   !day
+              !ipdtmpl(9) =ihr+ifhr-jpd27    !overwrite for APCP: Beginning time of accumulation
+              !ipdtmpl(21)=ihr+ifhr         !end time of accumulation
+              !ipdtmpl(21)=khr         !end time of accumulation
+
+
+              ipdtmpl(18)=iyr1   !year
+              ipdtmpl(19)=imon1  !mon
+              ipdtmpl(20)=idy1   !day
+              ipdtmpl(9)= ifhr-jpd27   !overwite for APCP, begin time of accumulation
+              ipdtmpl(21)=ihr1         !end of fcst time of accumulation
+
+              ipdtmpl(22)=0   
+              ipdtmpl(23)=0  
+              ipdtmpl(24)=1   
+              ipdtmpl(25)=0   
+              ipdtmpl(26)=1   
+              ipdtmpl(27)=2                 !See Table 4.11, same start time (or same cycle time) 
+
