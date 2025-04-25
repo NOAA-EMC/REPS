@@ -1,0 +1,72 @@
+Job submissions
+
+------------------
+First group (trigged by GEFS pgrb2a and pgrb2b finish and be submitted 
+all together)
+[sh run_enspost_preproc_reps.sh domain cyc yyyymmdd 
+ for six domains and four cycles: 00, 06, 12, 18]
+sh run_enspost_preproc_reps.sh 212 00 20250410 
+sh run_enspost_preproc_reps.sh 216 00 20250410 
+sh run_enspost_preproc_reps.sh 243 00 20250410 
+sh run_enspost_preproc_reps.sh 221 00 20250410 
+sh run_enspost_preproc_reps.sh 132 00 20250410 
+sh run_enspost_preproc_reps.sh global 00 20250410 
+
+------------------
+2nd group (after the first job finishes)
+[sh run_enspost_ensprod_1.sh domain cyc yyyymmdd
+for six domains and four cycles: 00, 06, 12, 18]
+sh run_enspost_ensprod_1.sh 212 00 20250410
+sh run_enspost_ensprod_1.sh 216 00 20250410
+sh run_enspost_ensprod_1.sh 243 00 20250410
+sh run_enspost_ensprod_1.sh 221 00 20250410
+sh run_enspost_ensprod_1.sh 132 00 20250410
+sh run_enspost_ensprod_1.sh global 00 20250410
+
+------------------
+3rd group (after the 2nd job finishes)
+AWIP files for ensemble products:
+[sh run_enspost_awips.sh domain cyc yyyymmdd ensemble
+for three domains and four cycles: 00, 06, 12, 18]
+sh run_enspost_awips.sh 212 00 20250410 ensemble
+sh run_enspost_awips.sh 216 00 20250410 ensemble
+sh run_enspost_awips.sh 243 00 20250410 ensemble
+
+AWIP files for individual members:
+[sh run_enspost_awips.sh domain cyc yyyymmdd individual
+for one domain and four cycles: 00, 06, 12, 18]
+sh run_enspost_awips.sh 221 00 20250410 individual
+
+Gempack files for ensemble products:
+[sh run_enspost_gempak.sh domain cyc yyyymmdd ensemble
+for six domains and four cycles: 00, 06, 12, 18]
+sh run_enspost_gempak.sh 212 00 20250401 ensemble
+sh run_enspost_gempak.sh 216 00 20250401 ensemble
+sh run_enspost_gempak.sh 243 00 20250401 ensemble
+sh run_enspost_gempak.sh 221 00 20250401 ensemble
+sh run_enspost_gempak.sh 132 00 20250401 ensemble
+sh run_enspost_gempak.sh global 00 20250401 ensemble
+
+Gempack files for individua members:
+[sh run_enspost_gempak.sh domain cyc yyyymmdd individual
+for six domains and four cycles: 00, 06, 12, 18]
+sh run_enspost_gempak.sh 212 00 20250401 individual
+sh run_enspost_gempak.sh 216 00 20250401 individual
+sh run_enspost_gempak.sh 243 00 20250401 individual
+sh run_enspost_gempak.sh 221 00 20250401 individual
+sh run_enspost_gempak.sh 132 00 20250401 individual
+sh run_enspost_gempak.sh global 00 20250401 individual
+
+----------------------
+Output directories
+/com/reps/v1.0/sref.yyyymmdd/cyc
+pgrb  (members)
+ensprod (ensemble products)
+gempak (gempak)
+wmo (awips)
+log
+/com/reps/v1.0/sref.20250414/06
+
+Working directories
+/stmp/tmp
+

@@ -1,0 +1,9 @@
+
+forrtl: severe (153): allocatable array or pointer is not allocated
+Image              PC                Routine            Line        Source
+enspost_ensprod    0000000000586EA4  Unknown               Unknown  Unknown
+enspost_ensprod    000000000040C4E7  MAIN__                   2465  sref_ens_gen.f
+enspost_ensprod    0000000000404A92  Unknown               Unknown  Unknown
+libc-2.31.so       0000152DC0D4224D  __libc_start_main     Unknown  Unknown
+enspost_ensprod    00000000004049AA  Unknown               Unknown  Unknown
+
