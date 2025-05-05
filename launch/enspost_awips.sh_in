@@ -44,7 +44,7 @@ export PTILE=1
 export RUN_ENVIR=para
 export envir=para
 export NET=reps
-export RUN=sref
+export RUN=gefs
 
 export NEST=_DOM_
 export cyc=_CYC_
