@@ -41,7 +41,7 @@ export envir=para
 #export RUN_ENVIR=test
 #export envir=test
 export NET=reps
-export RUN=sref
+export RUN=gefs
 
 export NEST=_DOM_
 export cyc=_CYC_
