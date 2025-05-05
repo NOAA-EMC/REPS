@@ -136,7 +136,7 @@ fi
   export FORTREPORTS=unit_vars=yes 
   export FORT11=${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
   export FORT12=${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2i
-  export FORT51=xtrn.${cycle}.gefs.${NEST}_${type}_${fhr}
+  export FORT51=xtrn.${cycle}.$RUN.${NEST}_${type}_${fhr}
 # $TOCGRIB2 <$PARMwmo/grib2_awips_rrf_${NEST}_${type}f${fhr} parm='KWBB'
 # $TOCGRIB2 <$PARMwmo/grib2_awips_gefs_${NEST}_${type}f${fhr} parm='KWBK'
   $TOCGRIB2 <$PARMwmo/grib2_awips_sref_${NEST}_${type}f${fhr} parm='KWBB'
@@ -148,12 +148,12 @@ fi
   then
 # J.Du: Change processing id to rrfs (134) if it is different in the original input data
 #   $WGRIB2 xtrn.${cycle}.rrfs.${NEST}_${type}_${fhr} -set analysis_or_forecast_process_id 134 -grib $COMOUT/grib2.t${cyc}z.awprrfs_${NEST}_${type}_f${fhr}_${cyc}
-    cp xtrn.${cycle}.gefs.${NEST}_${type}_${fhr} $COMOUT/grib2.t${cyc}z.awpgefs_${NEST}_${type}_f${fhr}_${cyc}
+    cp xtrn.${cycle}.$RUN.${NEST}_${type}_${fhr} $COMOUT/grib2.t${cyc}z.awp${RUN}_${NEST}_${type}_f${fhr}_${cyc}
   fi
 
   if test "$SENDDBN_NTC" = 'YES'
   then
-    $DBNROOT/bin/dbn_alert NTC_LOW RRFS_ENSPOST_AWIPS $job $COMOUT/grib2.t${cyc}z.awpgefs_${NEST}_${type}_f${fhr}_${cyc}
+    $DBNROOT/bin/dbn_alert NTC_LOW RRFS_ENSPOST_AWIPS $job $COMOUT/grib2.t${cyc}z.awp${RUN}_${NEST}_${type}_f${fhr}_${cyc}
   fi
 
 done
