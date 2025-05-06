@@ -152,13 +152,13 @@ echo filecheck2 is $filecheck2
 
 
 # cp ../$filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2 ${GESOUT}.${day}/.
-  cp ../$filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2 ${GESOUT}/.
-  $WGRIB2 $GESOUT/$filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2 -s > $GESOUT/$filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2.idx
+  cp ../$filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2 ${GESOUT}/$filename.t${cyc}z.${name}.pgrb.f${hr}.$region.grib2
+  $WGRIB2 $GESOUT/$filename.t${cyc}z.${name}.pgrb.f${hr}.$region.grib2 -s > $GESOUT/$filename.t${cyc}z.${name}.pgrb.f${hr}.$region.grib2.idx
   err=$? ; export err
 
 	if [ $err -ne 0 ]
          then
-         msg="FATAL ERROR: $filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2 not copied properly"
+         msg="FATAL ERROR: $filename.t${cyc}z.${name}.pgrb.f${hr}.$region.grib2 not copied properly"
          err_exit $msg
         fi
 

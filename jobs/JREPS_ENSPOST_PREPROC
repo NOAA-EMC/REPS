@@ -196,9 +196,9 @@ else
   hours="000 006 012 018 024 030 036 042 048 054 060 066 072 078 084 090"
   for hr in $hours
   do
-   cat $DATA2/$RUN.t${cyc}z.$name.f$hr.grib2 >> $GESOUT/$RUN.t${cyc}z.$name.pgrb$region.grib2
+   cat $DATA2/$RUN.t${cyc}z.$name.f$hr.grib2 >> $GESOUT/$RUN.t${cyc}z.$name.pgrb.$region.grib2
   done 
-  $WGRIB2 $GESOUT/$RUN.t${cyc}z.$name.pgrb$region.grib2  -s >  $GESOUT/$RUN.t${cyc}z.$name.pgrb$region.grib2.idx
+  $WGRIB2 $GESOUT/$RUN.t${cyc}z.$name.pgrb$region.grib2  -s >  $GESOUT/$RUN.t${cyc}z.$name.pgrb.$region.grib2.idx
  done
 fi
 ######################################

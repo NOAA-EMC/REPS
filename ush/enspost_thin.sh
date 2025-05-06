@@ -34,7 +34,7 @@ mkdir ${filename}_${mem}_${hr}
 cd ${filename}_${mem}_${hr}
 
 # input files
-filecheck=$GESOUT/$filename.t${cyc}z.${name}.pgrb$region.f${hr}.grib2
+filecheck=$GESOUT/$filename.t${cyc}z.${name}.pgrb.f${hr}.$region.grib2
 
 echo filecheck is $filecheck
 
