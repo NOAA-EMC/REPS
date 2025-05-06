@@ -21,7 +21,7 @@ dd=`echo ${PDY} | cut -c 7-8`
 fhr=$1
 dom=${2}
 
-appname=gefs
+appname=$RUN
 
 ff=$fhr
 #dom=${NEST}
@@ -177,16 +177,16 @@ types="mean prob sprd pmax pmin pmod pp10 pp25 pp50 pp75 pp90"
 if [ $SENDCOM = YES ]; then
  for typ in $types
  do
-  cp $DATA/$ff/${appname}.${typ}.t${cyc}z.f$ff $COMOUT/ensprod/$RUN.t${cyc}z.${dom}.${typ}.f$ff.grib2
-  $WGRIB2 $COMOUT/ensprod/${RUN}.t${cyc}z.${dom}.${typ}.f$ff.grib2  -s >  $COMOUT/ensprod/${RUN}.t${cyc}z.${dom}.${typ}.f$ff.grib2.idx
+  cp $DATA/$ff/${appname}.${typ}.t${cyc}z.f$ff $COMOUT/ensprod/$RUN.t${cyc}z.${typ}.f$ff.${dom}.grib2
+  $WGRIB2 $COMOUT/ensprod/${RUN}.t${cyc}z.${typ}.f$ff.${dom}.grib2  -s >  $COMOUT/ensprod/${RUN}.t${cyc}z.${typ}.f$ff.${dom}.grib2.idx
  done
 fi
 
 if [ $SENDDBN = YES ]; then
  for typ in $types
  do
-  $DBNROOT/bin/dbn_alert MODEL REPS_GB2 $job $COMOUT/ensprod/${RUN}.t${cyc}z.${dom}.${typ}.f$ff.grib2
-  $DBNROOT/bin/dbn_alert MODEL REPS_GB2_WIDX $job $COMOUT/ensprod/${RUN}.t${cyc}z.${dom}.${typ}.f$ff.grib2.idx
+  $DBNROOT/bin/dbn_alert MODEL REPS_GB2 $job $COMOUT/ensprod/${RUN}.t${cyc}z.${typ}.f$ff.${dom}.grib2
+  $DBNROOT/bin/dbn_alert MODEL REPS_GB2_WIDX $job $COMOUT/ensprod/${RUN}.t${cyc}z.${typ}.f$ff.${dom}.grib2.idx
  done
 fi
 

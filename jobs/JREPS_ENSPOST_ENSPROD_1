@@ -124,9 +124,9 @@ else
   hours="006 012 018 024 030 036 042 048 054 060 066 072 078 084 090"
   for hr in $hours
   do
-   cat $COMOUT/ensprod/$RUN.t${cyc}z.$NEST.$name.f$hr.grib2 >> $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb$NEST.grib2
+   cat $COMOUT/ensprod/$RUN.t${cyc}z.$name.f$hr.$NEST.grib2 >> $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb.$NEST.grib2
   done 
-  $WGRIB2 $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb$NEST.grib2  -s >  $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb$NEST.grib2.idx
+  $WGRIB2 $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb.$NEST.grib2  -s >  $COMOUT/ensprod/$RUN.t${cyc}z.$name.pgrb.$NEST.grib2.idx
  done
 fi
 

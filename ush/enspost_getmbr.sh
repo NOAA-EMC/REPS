@@ -16,7 +16,7 @@ typeset -Z2 m
 fhr=$1
 dom=${2}
 
-filename=gefs
+filename=$RUN
 
 looplim=10
 sleeptime=6
@@ -58,16 +58,16 @@ echo working things with ff as $ff
 
 #     echo ${filename}.m${m}.t${cyc}z.f${ff1}
 #     echo ${filename}.m${m}.t${cyc}z.f${ff}
-      echo ${filename}.t${cyc}z.${nam[$m]}.pgrb$dom.f${ff1}
-      echo ${filename}.t${cyc}z.${nam[$m]}.pgrb$dom.f${ff}
+      echo ${filename}.t${cyc}z.${nam[$m]}.pgrb.f${ff1}.$dom
+      echo ${filename}.t${cyc}z.${nam[$m]}.pgrb.f${ff}.$dom
 
       if [  $ff -eq 006  ] ; then
-        filecheck00=$COMINreps/$filename.t${cycloc[$m]}z.${nam[$m]}.pgrb$dom.f000.grib2
+        filecheck00=$COMINreps/$filename.t${cycloc[$m]}z.${nam[$m]}.pgrb.f000.$dom.grib2
         ln -sf $filecheck00  $DATA/${filename}.m${m}.t${cyc}z.f000
         ln -sf $DATA/${filename}.m${m}.t${cyc}z.f000  $DATA/${ff}/${filename}.m${m}.t${cyc}z.f000
       fi
 
-        filecheck=$COMINreps/$filename.t${cycloc[$m]}z.${nam[$m]}.pgrb$dom.f${fcst}.grib2
+        filecheck=$COMINreps/$filename.t${cycloc[$m]}z.${nam[$m]}.pgrb.f${fcst}.$dom.grib2
 	if [ -e $filecheck ]
         then
          ln -sf $filecheck  $DATA/${filename}.m${m}.t${cyc}z.f${ff}
