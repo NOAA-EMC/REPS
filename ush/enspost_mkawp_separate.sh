@@ -79,24 +79,24 @@ alttype=$type
 
 
 loop=0
-while [ ! -e ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2 -a $loop -lt $looplim ]
+while [ ! -e ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2 -a $loop -lt $looplim ]
 do
-         echo waiting on ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
+         echo waiting on ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2
          sleep ${sleeptime}
          let loop=loop+1
 done
 
 loop=0
-while [ ! -e ${COMIN}/${RUN}.t${cyc}z.${NEST}.${alttype}.f${fhr}.grib2 -a $loop -lt $looplim ]
+while [ ! -e ${COMIN}/${RUN}.t${cyc}z.${alttype}.f${fhr}.${NEST}.grib2 -a $loop -lt $looplim ]
 do
-         echo waiting on ${COMIN}/${RUN}.t${cyc}z.${NEST}.${alttype}.f${fhr}.grib2
+         echo waiting on ${COMIN}/${RUN}.t${cyc}z.${alttype}.f${fhr}.${NEST}.grib2
          sleep ${sleeptime}
          let loop=loop+1
 done
 
-if [ ! -e ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2  -o ! -e ${COMIN}/${RUN}.t${cyc}z.${NEST}.${alttype}.f${fhr}.grib2 ]
+if [ ! -e ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2  -o ! -e ${COMIN}/${RUN}.t${cyc}z.${alttype}.f${fhr}.${NEST}.grib2 ]
 then
-         msg="FATAL ERROR: ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2 or ${COMIN}/${RUN}.t${cyc}z.${NEST}.${alttype}.f${fhr}.grib2 missing but required"
+         msg="FATAL ERROR: ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2 or ${COMIN}/${RUN}.t${cyc}z.${alttype}.f${fhr}.${NEST}.grib2 missing but required"
          err_exit $msg
 fi
 
@@ -104,38 +104,38 @@ fi
 
   if [ $type = "prob" ]
   then
-  cp ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2 .
+  cp ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2 .
 # also want EAS prob
-  cp ${COMIN}/${RUN}.t${cyc}z.${NEST}.eas.f${fhr}.grib2 .
+  cp ${COMIN}/${RUN}.t${cyc}z.eas.f${fhr}.${NEST}.grib2 .
 # want FFRI prob for conus
   if [ $NEST = "conus" ]
   then
-    cp ${COMIN}/${RUN}.t${cyc}z.${NEST}.ffri.f${fhr}.grib2 .
-    cat ${RUN}.t${cyc}z.${NEST}.eas.f${fhr}.grib2 ${RUN}.t${cyc}z.${NEST}.ffri.f${fhr}.grib2 >> ${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
+    cp ${COMIN}/${RUN}.t${cyc}z.ffri.f${fhr}.${NEST}.grib2 .
+    cat ${RUN}.t${cyc}z.eas.f${fhr}.${NEST}.grib2 ${RUN}.t${cyc}z.ffri.f${fhr}.${NEST}.grib2 >> ${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2
   else
-    cat ${RUN}.t${cyc}z.${NEST}.eas.f${fhr}.grib2  >> ${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
+    cat ${RUN}.t${cyc}z.eas.f${fhr}.${NEST}.grib2  >> ${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2
   fi
 
-  cat ${RUN}.t${cyc}z.${NEST}.eas.f${fhr}.grib2 ${RUN}.t${cyc}z.${NEST}.ffri.f${fhr}.grib2 >> ${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
+  cat ${RUN}.t${cyc}z.eas.f${fhr}.${NEST}.grib2 ${RUN}.t${cyc}z.ffri.f${fhr}.${NEST}.grib2 >> ${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2
 
   elif [ $type = "pmmn" ]
   then
-  cp ${COMIN}/${RUN}.t${cyc}z.${NEST}.lpmm.f${fhr}.grib2 .
-  cp ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2 .
-  cat ${RUN}.t${cyc}z.${NEST}.lpmm.f${fhr}.grib2 >> ${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
+  cp ${COMIN}/${RUN}.t${cyc}z.lpmm.f${fhr}.${NEST}.grib2 .
+  cp ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2 .
+  cat ${RUN}.t${cyc}z.lpmm.f${fhr}.${NEST}.grib2 >> ${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2
 
   else
-  ln -sf ${COMIN}/${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2 .
+  ln -sf ${COMIN}/${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2 .
   fi
 
-  $GRBINDEX ${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2 ${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2i 
+  $GRBINDEX ${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2 ${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2i 
   export pgm=tocgrib2
   . prep_step
   startmsg
 
   export FORTREPORTS=unit_vars=yes 
-  export FORT11=${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2
-  export FORT12=${RUN}.t${cyc}z.${NEST}.${type}.f${fhr}.grib2i
+  export FORT11=${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2
+  export FORT12=${RUN}.t${cyc}z.${type}.f${fhr}.${NEST}.grib2i
   export FORT51=xtrn.${cycle}.$RUN.${NEST}_${type}_${fhr}
 # $TOCGRIB2 <$PARMwmo/grib2_awips_rrf_${NEST}_${type}f${fhr} parm='KWBB'
 # $TOCGRIB2 <$PARMwmo/grib2_awips_gefs_${NEST}_${type}f${fhr} parm='KWBK'

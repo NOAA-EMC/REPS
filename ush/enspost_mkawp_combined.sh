@@ -29,30 +29,30 @@ for type in $types
 do
 
 loop=0
-while [ ! -e ${COMIN}/$RUN.t${cyc}z.$type.pgrb${NEST}.grib2 -a $loop -lt $looplim ]
+while [ ! -e ${COMIN}/$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2 -a $loop -lt $looplim ]
 do
-         echo waiting on ${COMIN}/$RUN.t${cyc}z.$type.pgrb${NEST}.grib2
+         echo waiting on ${COMIN}/$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2
          sleep ${sleeptime}
          let loop=loop+1
 done
 
-if [ ! -e ${COMIN}/$RUN.t${cyc}z.$type.pgrb${NEST}.grib2 ]
+if [ ! -e ${COMIN}/$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2 ]
 then
-         msg="FATAL ERROR: ${COMIN}/$RUN.t${cyc}z.$type.pgrb${NEST}.grib2 missing but required"
+         msg="FATAL ERROR: ${COMIN}/$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2 missing but required"
          err_exit $msg
 fi
 
   # Processing AWIPS grid 212, 216, and 243 etc. 
    
-  cp ${COMIN}/$RUN.t${cyc}z.$type.pgrb${NEST}.grib2 .
-  $GRBINDEX $RUN.t${cyc}z.$type.pgrb${NEST}.grib2 $RUN.t${cyc}z.$type.pgrb${NEST}.grib2i 
+  cp ${COMIN}/$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2 .
+  $GRBINDEX $RUN.t${cyc}z.$type.pgrb.${NEST}.grib2 $RUN.t${cyc}z.$type.pgrb.${NEST}.grib2i 
   export pgm=tocgrib2
   . prep_step
   startmsg
 
   export FORTREPORTS=unit_vars=yes 
-  export FORT11=$RUN.t${cyc}z.$type.pgrb${NEST}.grib2
-  export FORT12=$RUN.t${cyc}z.$type.pgrb${NEST}.grib2i
+  export FORT11=$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2
+  export FORT12=$RUN.t${cyc}z.$type.pgrb.${NEST}.grib2i
   export FORT51=xtrn.${cycle}.$RUN.${NEST}_${type}
 if [ $product = ensemble ]; then
   $TOCGRIB2 <$PARMwmo/grib2_awpsref${NEST}.${type} parm='KWBL'
