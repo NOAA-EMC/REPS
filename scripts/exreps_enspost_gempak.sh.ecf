@@ -70,24 +70,24 @@ while [ $fhcnt -le $fend ] ; do
 #  GRIBIN=$COMIN/ensprod/${RUN}.t${cyc}z.${NEST}.${TYPE}.f${fhr}.grib2
 #  GRIBIN_chk=$COMIN/ensprod/${RUN}.t${cyc}z.${NEST}.${TYPE}.f${fhr}.grib2.idx
 #  GEMGRD=${RUN}_${NEST}_${TYPE}_${PDY}${cyc}f${fhr3} 
-   GRIBIN=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.f${fhr3}.grib2
-   GRIBIN_chk=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.f${fhr3}.grib2.idx
+   GRIBIN=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.f${fhr3}.grib2
+   GRIBIN_chk=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.f${fhr3}.grib2.idx
    GEMGRD=${RUN}${NEST}_${PDY}${cyc}f${fhr3}_$TYPE 
    else
-   GRIBIN=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.grib2
-   GRIBIN_chk=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.grib2.idx
+   GRIBIN=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.grib2
+   GRIBIN_chk=$COMIN/ensprod/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.grib2.idx
    GEMGRD=${RUN}${NEST}_${PDY}${cyc}_$TYPE 
    fi
   fi
 
   if [ $product = individual ] ; then
   if [ $convert = separate ] ; then
-   GRIBIN=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.f${fhr3}.grib2
-   GRIBIN_chk=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.f${fhr3}.grib2.idx
+   GRIBIN=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.f${fhr3}.grib2
+   GRIBIN_chk=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.f${fhr3}.grib2.idx
    GEMGRD=${RUN}${NEST}_${PDY}${cyc}f${fhr3}_$TYPE
   else
-   GRIBIN=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.grib2
-   GRIBIN_chk=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb${NEST}.grib2.idx
+   GRIBIN=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.grib2
+   GRIBIN_chk=$COMIN/pgrb/${RUN}.t${cyc}z.${TYPE}.pgrb.${NEST}.grib2.idx
    GEMGRD=${RUN}${NEST}_${PDY}${cyc}_$TYPE 
   fi
   fi
