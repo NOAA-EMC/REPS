@@ -9,4 +9,5 @@ export g2tmpl_ver=1.14.0
 export jasper_ver=2.0.25
 export libpng_ver=1.6.37
 export zlib_ver=1.2.11
+export libjpeg_ver=9c 
 export python_ver=3.12.0
