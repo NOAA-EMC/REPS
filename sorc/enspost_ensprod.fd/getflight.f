@@ -33,7 +33,7 @@ c    for derived variables
         REAL,dimension(jf,Lp,Lt),intent(INOUT) ::  derv_pr
 
         
-        real  count, aprob, flt_cnd(iens),wgt(30)
+        real  count, aprob, flt_cnd(iens),wgt(iens)
         integer ID_FLT, JJ
 
         integer miss(iens)

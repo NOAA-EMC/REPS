@@ -51,7 +51,7 @@ c    for derived variables
         INTEGER missing(20,iens)
         character*7 mbrname(50)
 
-        real apoint(iens),Uapoint(iens),Vapoint(iens),wgt(30)
+        real apoint(iens),Uapoint(iens),Vapoint(iens),wgt(iens)
         integer,dimension(iens),intent(IN) :: ifunit
         type(gribfield) :: gfld
 

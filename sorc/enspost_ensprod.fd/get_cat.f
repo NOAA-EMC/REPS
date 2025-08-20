@@ -33,7 +33,7 @@ c    for derived variables
         INTEGER, intent(IN) :: nv, jf, iens
         REAL,dimension(jf,Lp,Lt),intent(INOUT) :: derv_pr
 
-        real wgt(30)
+        real wgt(iens)
 
         integer miss(iens)
 

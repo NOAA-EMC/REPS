@@ -37,7 +37,7 @@ c    for derived variables
         real apoint(iens)
                                                                 
         INTEGER miss(iens) 
-        real wgt(30)
+        real wgt(iens)
 
         integer,dimension(iens),intent(IN) :: ifunit
         type(gribfield) :: gfld

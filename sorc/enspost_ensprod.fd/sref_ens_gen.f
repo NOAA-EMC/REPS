@@ -110,6 +110,8 @@ c 2016-02-02: Matthew P. Add Probability-Matched mean QPF
 c
 c 2023-10-17: Jun Du: Modified to work for GEFS.v13
 c
+c 2025-10-17: Jun Du: corrected dimention and assign value to wgt
+c
 c$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C$$$
 C
@@ -218,7 +220,7 @@ c   for max,min,10,25,50,90% mean products
         Character*1 qMsignal(maxvar)
         Integer qMlvl(maxvar), qMeanLevel(maxvar,maxmlvl)
         
-        real  weight(30), gauss_sig                         
+        real  weight(31), gauss_sig                         
         character*20 filenames
         character*3 cfhr                                       
         integer est                                 !east time for convection code
@@ -2330,13 +2332,14 @@ cc%%%%%%% 9. To see if there is fog  computation, if yes, do it
          end if
 
 cc%%%%%%% 10. To see if there is thickness computation, if yes, do it
+              write(*,*) 'Before thickness'
           if(dk4(nv).eq.3.and.dk5(nv).eq.5.and.
      +                             dk6(nv).eq.101) then
               
             call thickness (nv,ifunit,jpdtn,jf,iens,Lm,Lp,Lth,
      +             derv_mn,derv_sp,derv_pr,weight)
 
-              write(*,*) 'Thickness done'
+            write(*,*) 'thickness done'
           
           end if
 

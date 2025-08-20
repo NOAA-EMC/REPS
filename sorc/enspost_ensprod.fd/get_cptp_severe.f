@@ -29,7 +29,7 @@ c    for derived variables
         Integer MPairLevel(maxvar,maxmlvl,2)
         Integer PPairLevel(maxvar,maxplvl,2)
         Character*19 files(50) 
-        real wgt(30)
+        real wgt(iens)
         integer ifunit(iens)
         character*2 cyc, fhr
         character*5 eps

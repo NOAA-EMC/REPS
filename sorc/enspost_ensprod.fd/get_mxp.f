@@ -32,7 +32,7 @@ c   for max,min,10,25,50,90% mean products
         real x(iens)
         INTEGER,dimension(jf,iens),intent(IN) :: missing
         integer miss(iens)
-        real wgt(30)
+        real wgt(iens)
         type(gribfield) :: gfld
 
 

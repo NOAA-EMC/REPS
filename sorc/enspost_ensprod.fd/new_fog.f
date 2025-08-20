@@ -42,7 +42,7 @@ c    for derived variables
         real u10,v10,hsfc,up(10),vp(10),hp(10),dt2,dtp(10),
      +       tp(10),t2,rh2,rhp(10),lwc,lwc1(jf,iens)
 
-        REAL wgt(30) 
+        REAL wgt(iens) 
 
         real qw(jf),qw2d(im,jm),qadv(jf,iens),
      +       qadv2d(im,jm),u2d(im,jm),v2d(im,jm)

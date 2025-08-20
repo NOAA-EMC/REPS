@@ -40,7 +40,7 @@ c    for derived variables
 
         real CEILapoint(iens),TCLDapoint(iens),CLDBapoint(iens),
      +       HSFCapoint(iens)
-        real wgt(30)
+        real wgt(iens)
 
         integer miss(iens), JJ
 

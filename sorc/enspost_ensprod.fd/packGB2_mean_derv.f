@@ -155,9 +155,10 @@ c            ipdtmpl(5)=132              !assigned 20161214
              ipdtmpl(13)=100
              ipdtmpl(14)=0
              ipdtmpl(15)=MPairLevel(nv,ml,2)*100
-             !write (*,*) 'ipdtmpl=',ipdtmpl 
-             !write (*,'(10f9.2)')(derv_mn(i,ml),i=10001,10010)  
-             !write (*,'(10f9.2)')(derv_sp(i,ml),i=10001,10010)  
+             write (*,*) 'thickness printouts'
+             write (*,*) 'ipdtmpl=',ipdtmpl 
+             write (*,'(10f9.2)')(derv_mn(i,ml),i=10001,10010)  
+             write (*,'(10f9.2)')(derv_sp(i,ml),i=10001,10010)  
 
           else if (jpd10.eq.108 .and. jpd1.eq.2 .and. jpd2.eq.8) then
             ipdtmpl(10)=100

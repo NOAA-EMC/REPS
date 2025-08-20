@@ -34,7 +34,7 @@ c    for derived variables
         REAL,dimension(jf,Lp,Lt),intent(INOUT) :: derv_pr
 
         real Tapoint(iens),Rapoint(iens), Wapoint(iens),
-     +              Icing(iens),wgt(30)
+     +              Icing(iens),wgt(iens)
 
 
          REAL, dimension(jf,iens) :: T, R, W  !Temperature, TH and upward-wind

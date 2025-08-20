@@ -213,7 +213,7 @@ c   for max,min,10,25,50,90% mean products
         Character*3 qMn(maxvar)
         Integer qMlvl(maxvar), qMeanLevel(maxvar,maxmlvl)
 
-        Integer missvar(maxvar,30)         !dynamically build a missing array for direct variable missing in each member
+        Integer missvar(maxvar,31)         !dynamically build a missing array for direct variable missing in each member
         Character Tsignal(maxvar)          !2015-12-09: new added to account on Gaussian smoothing sigma value   
         Character dTsignal(maxvar)          !2018-10-02:  new for derived Gauss smooth  
 
@@ -528,6 +528,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
              wsum=wsum+wgt(i)
            end if
          end do
+c        print*,'wsum=',wsum
  
          if(wsum.eq.0.0) then         !if All members are missing
            mean = -9999.0
@@ -612,7 +613,7 @@ c   Apr. 7, 2009: Zhou B. Add weight (wgt) for VSREF
 ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
                                                                                                      
         subroutine get_cond_mean (x,n,alarge,mean,spread,miss,wgt)
-         real x(*),wgt(30), mean, spread, alarge,count, half
+         real x(*),wgt(31), mean, spread, alarge,count, half
          integer n,miss(*)
                                                                                                      
          mean = 0.
@@ -659,7 +660,7 @@ ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
         subroutine get_cond_mean_test(igrid,x,n,alarge,mean,spread,
      +         miss,wgt)
-         real x(*),wgt(30), mean, spread, alarge,count, half
+         real x(*),wgt(31), mean, spread, alarge,count, half
          integer n,miss(*)
 
          mean = 0.

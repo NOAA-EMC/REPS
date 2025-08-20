@@ -42,7 +42,7 @@ c    for derived variables
         real ws,u10,v10,hsfc,up(lvl),vp(lvl),hp(lvl)            
                                                                 
         INTEGER miss(iens) 
-        real wgt(30)
+        real wgt(iens)
 
         integer,dimension(iens),intent(IN) :: ifunit
         type(gribfield) :: gfld

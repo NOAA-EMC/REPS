@@ -37,7 +37,7 @@ c    for derived variables
 
         real CNVPapnt(iens),CNVP(jf),CNVPSMTH(jf)
         real CNVapnt(iens), cnv(jf,iens)
-        real wgt(30),threshold(24),aprob
+        real wgt(iens),threshold(24),aprob
         integer lon_indx,mid,im,jm,est,wst,gribid
 
         integer miss(iens)
