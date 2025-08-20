@@ -943,7 +943,8 @@ c
          integer s,nbr
 
          if(ns.eq.'A'.or.ns.eq.'E'.or.ns.eq.'H') then
-           nbr=5
+c          nbr=5
+           nbr=8 ! retune for 3 km
          else if (ns.eq.'K') then
            nbr=3
          else if (ns.eq.'L') then
