@@ -7,6 +7,7 @@ c     then compute the difference between the two levels
 c     
 c     Author: Binbin Zhou, Aug, 5, 2005
 c     05/15/2013: Updated to grib2 I/O, B. Zhou
+c     08/20/2025: J. Du, assig wgt value to avoid spread error
 c
 c      
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
@@ -41,7 +42,7 @@ c    for derived variables
 
         INTEGER miss(iens)
 
-        real apoint(iens),wgt(30)
+        real apoint(iens),wgt(iens)
         REAL, dimension(jf,iens) :: h1,h2
         integer,dimension(iens),intent(IN) :: ifunit
         type(gribfield) :: gfld
@@ -56,18 +57,24 @@ c    for derived variables
         jp27=-9999
 
 
-c        write(*,*) 'In thickness .....'
-c        write(*,*) 'nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10',
-c     +              nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10
+         write(*,*) 'In thickness .....'
+         write(*,*) 'nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10',
+     +              nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10
+         write(*,*) 'Higher level=',MPairLevel(nv,1,1)
+         write(*,*) 'Lower level=',MPairLevel(nv,1,2)
+         write(*,*) 'dMlvl(nv)=',dMlvl(nv)
 
          miss=0
+         wgt=1.0
           loop400: do irun=1,iens
            jpd12=MPairLevel(nv,1,1)
            call readGB2(ifunit(irun),jpdtn,jdp1,jdp2,jpd10,jpd12,
      +                                      jp27,gfld,eps,ie) !higher level  
            if(ie.eq.0) then
+             write(*,*) 'reading thickness1 correct for mem=',irun
              h1(:,irun)=gfld%fld
            else
+             write(*,*) 'reading thickness1 wrong .....'
              miss=1
              cycle loop400
            end if
@@ -76,8 +83,10 @@ c     +              nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10
            call readGB2(ifunit(irun),jpdtn,jdp1,jdp2,jpd10,jpd12,
      +                                      jp27,gfld,eps,ie) !lower level  
            if(ie.eq.0) then
+            write(*,*) 'reading thickness2 correct for mem=',irun
             h2(:,irun)=gfld%fld
            else
+             write(*,*) 'reading thickness2 wrong .....'
              miss=1
              cycle loop400
            end if
@@ -89,8 +98,11 @@ c     +              nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10
                 do igrid = 1,jf
 
                   apoint = abs( h1(igrid,:) - h2(igrid,:))
+           if(igrid.eq.10001) write(*,*) 'before getmean for thickness'
+           if(igrid.eq.10001) write(*,*) 'miss=',miss
+           if(igrid.eq.10001) write(*,*) 'apoint for thickness=',apoint
                   call getmean(apoint,iens,amean,aspread,
-     +                 miss,weight)
+     +                 miss,wgt)
                   derv_mn(igrid,lv)=amean
                   derv_sp(igrid,lv)=aspread
                 end do
@@ -108,7 +120,7 @@ c     +              nv,ifunit,jf,iens,Lm,Lp,Lt,jpd10
                      thr1 = dThrs(nv,lh)
                      thr2 = 0.
                call getprob(apoint,iens,thr1,thr2,dop(nv),aprob,
-     +                       miss,weight)
+     +                       miss,wgt)
                      derv_pr(igrid,lv,lh)=aprob
                     else
                      if(lh.lt.dTlvl(nv)) then
