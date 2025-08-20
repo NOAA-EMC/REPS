@@ -59,13 +59,13 @@ sh run_enspost_gempak.sh global 00 20250401 individual
 
 ----------------------
 Output directories
-/com/reps/v1.0/sref.yyyymmdd/cyc
+/com/reps/v1.0/gefs.yyyymmdd/cyc
 pgrb  (members)
 ensprod (ensemble products)
 gempak (gempak)
 wmo (awips)
 log
-/com/reps/v1.0/sref.20250414/06
+/com/reps/v1.0/gefs.20250414/06
 
 Working directories
 /stmp/tmp
